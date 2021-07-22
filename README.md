@@ -17,7 +17,7 @@ brew install git
 git --version
 ```
 
-#projectのリポジトリをクローン
+# projectのリポジトリをクローン
 ```
 git clone https://github.com/sk161717/hackathon.git
 ```
