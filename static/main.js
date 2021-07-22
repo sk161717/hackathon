@@ -6,7 +6,7 @@ elem.addEventListener('click',function(){
     })
 })
 anime({
-    targets: 'li',
+    targets: 'lib',
     translateX: 2500,
     rotate: '10turn',
     backgroundColor: '#FFF',
