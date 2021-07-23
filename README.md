@@ -23,4 +23,6 @@ git clone https://github.com/sk161717/hackathon.git
 ```
 上記のコマンドが成功したら、自分のフォルダにhackathonというフォルダがあることを確認。
 
+めいか確認しました。
 あ
+
