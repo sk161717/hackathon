@@ -1,27 +1,12 @@
-var elem=document.getElementById("elem");
-elem.addEventListener('click',function(){
-    anime({
-        targets: elem,
-        translateX: 250
-    })
-})
-
-var content=document.getElementById("content");
-var animation = anime({
-    targets: content,
-    translateX: 270,
-    direction: 'alternate',
-    loop: true,
-    easing: 'easeInOutQuad',
-    autoplay: false
-});
-
-function loopp(t) {
-    animation.tick(t);
-    customRAF = requestAnimationFrame(loopp);
+function LoadPicture(){
+    var img_element=document.createElement("img");
+    img_element.id="fish";
+    img_element.src='/static/picture/otama_1_normal.png';
+    img_element.width=200;
+    img_element.height=200;
+    document.getElementsByClassName("parent_picture")[0].appendChild(img_element);
 }
-
-requestAnimationFrame(loopp);
+window.onload=LoadPicture();
 
 var loop=true;
 var easing='easeInOutQuad';
