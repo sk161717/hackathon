@@ -14,10 +14,22 @@ app.register_blueprint(static.app)
 @app.route('/')
 def index():
     if "user_id" in session:
+        # ユーザIDをセッションから受け取る
         user_id = session["user_id"]
 
-        user_name = 'hogehoge'
-        state = 'egg'
+        # バイナリファイルから辞書を受け取る
+        with open('user_data.binaryfile', 'rb') as f:
+            dic = pickle.load(f)
+
+
+        # ①ユーザIDをキーにして辞書からユーザ名と努力量を受け取る
+        # dic[ユーザID] = [ユーザ名, 努力量](リスト)
+        # user_name = ###
+        # effort = ###
+
+        # ②effortの値に応じてカエルの状態を決める
+        # ifで分岐
+        # state = ###
 
 
 
@@ -88,6 +100,7 @@ def signin_post():
     # IDが未登録の場合
     else:
         return redirect(url_for("signin", status="user_not_found"))
+
 
 
 # ログアウト
