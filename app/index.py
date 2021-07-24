@@ -22,6 +22,14 @@ def index():
         with open('user_data.pkl', 'rb') as f:
             dic = pickle.load(f)
 
+        try:
+            user_name = dic[user_id][0]
+        except Exception as e:
+            user_name = 'debug'
+            print(e)
+
+        state = 'egg'
+
 
 
         # ①ユーザIDをキーとして辞書からユーザ名と努力量を取得
@@ -63,12 +71,15 @@ def index():
 # 新規登録
 @app.route('/signup')
 def signup():
-    return render_template('signup.html')
+    status = request.args.get("status")
+    return render_template('signup.html', status=status)
 
 
 # フォーム記入後
 @app.route("/signup", methods=["post"])
 def signup_post():
+
+    # todo: IDおよび名前が空欄の場合の処理
 
     user_name = request.form["user_name"]
     user_id = request.form["user_id"]
@@ -100,11 +111,14 @@ def signup_post():
 # 既存ユーザログイン
 @app.route('/signin')
 def signin():
-    return render_template('signin.html')
+    status = request.args.get("status")
+    return render_template('signin.html', status=status)
 
 
 @app.route('/signin', methods=["post"])
 def signin_post():
+
+    # todo: IDが空欄の場合の処理
 
     # signin.htmlのフォームから user_id を受け取る
     user_id = request.form["user_id"]
