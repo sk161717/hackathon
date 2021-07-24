@@ -7,18 +7,23 @@ function LoadPicture(){
     img_element.src='/static/picture/'+state+'.png';
     if (state=="egg") {
         img_element.id="egg";
+        img_element.width=600;
+        img_element.height=600;
     }else if(state=="frog"){
         img_element.id="frog";
+        img_element.width=400;
+        img_element.height=400;
     }else{
         img_element.id="fish";
+        img_element.width=400;
+        img_element.height=400;
     }
-    img_element.width=200;
-    img_element.height=200;
+    
     document.getElementsByClassName("parent_picture")[0].appendChild(img_element);
 }
 window.onload=LoadPicture();
 
-console.log(document.getElementById("name").innerHTML)
+
 var loop=true;
 var easing='easeInOutQuad';
 var direction='alternate';
