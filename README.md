@@ -55,6 +55,8 @@ git push -u origin XXX(上のXXXと同じ)
 ```
 ブラウザで
 http://localhost:8000/ ->index.htmlが表示される
+
 http://localhost:8000/signup ->signup.htmlが表示される
+
 http://localhost:8000/signin ->signin.htmlが表示される
 
