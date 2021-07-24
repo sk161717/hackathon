@@ -22,41 +22,29 @@ def index():
         with open('user_data.pkl', 'rb') as f:
             dic = pickle.load(f)
 
-        try:
-            user_name = dic[user_id][0]
-        except Exception as e:
-            user_name = 'debug'
-            print(e)
 
-        state = 'egg'
+        # ユーザIDをキーとして辞書からユーザ名と努力量を取得
+        user_data = dic[user_id]
+        user_name = user_data[0]
+        effort = user_data[1]
 
+        # 努力量をifで分岐させ、stateを定義
 
-
-        # ①ユーザIDをキーとして辞書からユーザ名と努力量を取得
-        # dic[ユーザID] = [ユーザ名, 努力量]
-        user_data=dic[user_id]
-        user_name=user_data[0]
-        effort=user_data[1]
-
-        # ②努力量をifで分岐させ、stateを定義
-        # state = ###
-        # egg, otama_phase1, otama_phase2, otama_phase3, frog
-        
         #卵の時
-        if effort<200:
-          state="egg"
+        if effort < 200:
+          state = "egg"
         #おたまじゃくし：1つ目の段階
-        elif 200<=effort<450:
-          state="otama_phase1"
+        elif 200 <= effort < 450:
+          state = "otama_phase1"
         #おたまじゃくし：２つ目の段階
-        elif 450<=effort<600:
-          state="otama_phase2"
+        elif 450 <= effort < 600:
+          state = "otama_phase2"
         #おたまじゃくし：３つ目の段階
-        elif 600<=effort<750:
-          state="otama_phase3"
+        elif 600 <= effort <750:
+          state = "otama_phase3"
         #蛙
         else:
-          state="frog"
+          state = "frog"
 
 
         return render_template('index.html', name=user_name, state=state, user_id=user_id)
@@ -65,6 +53,32 @@ def index():
         # 仮としてセッション情報がないユーザはsignupにredirect
         # todo: 新規登録とログインが選べるページへの遷移
         return redirect(url_for("signup"))
+
+
+# 努力量をPOSTした時の処理
+@app.route(“/effort”,methods=[“POST”])
+def effort_post():
+
+    # 入力された努力量
+	effort_today =request.form[“effort”]
+
+    # ユーザIDをセッションから取得
+    user_id = session["user_id"]
+
+    # ユーザデータの保存するファイルから辞書を取得
+    with open('user_data.pkl', 'rb') as f:
+        dic = pickle.load(f)
+
+    # ユーザIDをキーとして辞書からユーザ名と努力量を取得
+    user_data = dic[user_id]
+    user_name = user_data[0]
+    effort_total = user_data[1]
+
+    # ① 入力された努力量を今までの努力総量に加算し、辞書を更新する。
+    # ② 計算しなおした努力総量を用いて、再度stateを定義する
+
+
+    return render_template('index.html', name=user_name, state=state, user_id=user_id)
 
 
 
