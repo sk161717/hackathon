@@ -95,3 +95,10 @@ def signin_post():
 def logout():
     session.pop("user_id", None)
     return redirect(url_for("index"))
+
+#開発用
+@app.route("/debug")
+def debug():
+    user_name = 'hogehoge'
+    state = 'egg'
+    return render_template("index.html",name=user_name, state=state)
