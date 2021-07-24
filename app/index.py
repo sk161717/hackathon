@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
-from flask import Flask, render_template, session, redirect, url_for
+from flask import Flask, render_template, session, redirect, url_for, request
 import pickle
 from app import static
 
 app = Flask(__name__)
+app.secret_key = 'hackathon0724'
 app.register_blueprint(static.app)
 
 
@@ -18,24 +19,14 @@ def index():
         user_id = session["user_id"]
 
         # ユーザデータの保存するファイルから辞書を取得
-        with open('user_data.binaryfile', 'rb') as f:
+        with open('user_data.pkl', 'rb') as f:
             dic = pickle.load(f)
 
 
-        # ①ユーザIDをキーとして辞書からユーザ名と努力量を取得
-        # dic[ユーザID] = [ユーザ名, 努力量]
-        # user_name = ###
-        # effort = ###
-
-        # ②努力量をifで分岐させ、stateを定義
-        # state = ###
-        # egg, otama_phase1, otama_phase2, otama_phase3, frog
 
 
 
-
-
-        return render_template('index.html', name=user_name, state=state)
+        return render_template('index.html', name=user_name, state=state, user_id=user_id)
 
     else:
         # 仮としてセッション情報がないユーザはsignupにredirect
@@ -58,7 +49,7 @@ def signup_post():
     user_id = request.form["user_id"]
 
     # ユーザデータの保存するファイルから辞書を取得
-    with open('user_data.binaryfile', 'rb') as f:
+    with open('user_data.pkl', 'rb') as f:
         dic = pickle.load(f)
 
 
@@ -67,8 +58,10 @@ def signup_post():
         dic[user_id] = [user_name, 0]
         session["user_id"] = user_id
 
-        with open('user_data.binaryfile', 'wb') as f:
+        with open('user_data.pkl', 'wb') as f:
             pickle.dump(dic, f)
+
+        return redirect(url_for("index"))
 
 
 
@@ -92,7 +85,7 @@ def signin_post():
     user_id = request.form["user_id"]
 
     # ユーザデータを保存するファイルから辞書を取得
-    with open('user_data.binaryfile', 'rb') as f:
+    with open('user_data.pkl', 'rb') as f:
         dic = pickle.load(f)
 
     # IDが登録されている場合セッション情報にユーザIDを登録しredirect
