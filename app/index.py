@@ -14,10 +14,24 @@ app.register_blueprint(static.app)
 @app.route('/')
 def index():
     if "user_id" in session:
+        # ユーザIDをセッションから取得
         user_id = session["user_id"]
 
-        user_name = 'hogehoge'
-        state = 'egg'
+        # ユーザデータの保存するファイルから辞書を取得
+        with open('user_data.binaryfile', 'rb') as f:
+            dic = pickle.load(f)
+
+
+        # ①ユーザIDをキーとして辞書からユーザ名と努力量を取得
+        # dic[ユーザID] = [ユーザ名, 努力量]
+        # user_name = ###
+        # effort = ###
+
+        # ②努力量をifで分岐させ、stateを定義
+        # state = ###
+        # egg, otama_phase1, otama_phase2, otama_phase3, frog
+
+
 
 
 
@@ -77,7 +91,7 @@ def signin_post():
     # signin.htmlのフォームから user_id を受け取る
     user_id = request.form["user_id"]
 
-    # ユーザデータの保存するファイルから辞書を取得
+    # ユーザデータを保存するファイルから辞書を取得
     with open('user_data.binaryfile', 'rb') as f:
         dic = pickle.load(f)
 
