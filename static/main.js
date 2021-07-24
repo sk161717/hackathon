@@ -1,27 +1,7 @@
-var elem=document.getElementById("elem");
-elem.addEventListener('click',function(){
-    anime({
-        targets: elem,
-        translateX: 250
-    })
-})
-
-var content=document.getElementById("content");
-var animation = anime({
-    targets: content,
-    translateX: 270,
-    direction: 'alternate',
-    loop: true,
-    easing: 'easeInOutQuad',
-    autoplay: false
-});
-
-function loopp(t) {
-    animation.tick(t);
-    customRAF = requestAnimationFrame(loopp);
+function LoadPicture(){
+    
 }
-
-requestAnimationFrame(loopp);
+window.onload=LoadPicture()
 
 var loop=true;
 var easing='easeInOutQuad';
