@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from flask import Flask
+from flask import Flask,render_template
 from app import static
 
 app = Flask(__name__)
@@ -12,24 +12,13 @@ app.register_blueprint(static.app)
 
 @app.route('/')
 def index():
-  return static.app.send_static_file('index.html')
+    return render_template('index.html')
 
 @app.route('/signup')
 def signup():
-    return static.app.send_static_file('signup.html')
+    return render_template('signup.html')
 
-@app.route('/static/main.css')
-def main_css():
-    return static.app.send_static_file('main.css')
+@app.route('/signin')
+def signin():
+    return render_template('signin.html')
 
-@app.route('/static/login.css')
-def login_css():
-    return static.app.send_static_file('login.css')
-
-@app.route('/static/main.js')
-def main_js():
-    return static.app.send_static_file('main.js')
-
-@app.route('/static/anime-master/lib//anime.min.js')
-def anime_js():
-    return static.app.send_static_file('anime-master/lib/anime.min.js')
