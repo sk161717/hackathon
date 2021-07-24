@@ -1,14 +1,13 @@
 
 function LoadPicture(){
-    var img_element=document.createElement("img");
-    //tmp
-    query_string="frog"
+    img_element=document.createElement("img");
+    state=document.getElementById("state").innerHTML
 
     img_element.className="image";
-    img_element.src='/static/picture/'+query_string+'.png';
-    if (query_string=="egg") {
+    img_element.src='/static/picture/'+state+'.png';
+    if (state=="egg") {
         img_element.id="egg";
-    }else if(query_string=="frog"){
+    }else if(state=="frog"){
         img_element.id="frog";
     }else{
         img_element.id="fish";
@@ -19,6 +18,7 @@ function LoadPicture(){
 }
 window.onload=LoadPicture();
 
+console.log(document.getElementById("name").innerHTML)
 var loop=true;
 var easing='easeInOutQuad';
 var direction='alternate';
