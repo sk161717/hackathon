@@ -41,3 +41,20 @@ git push -u origin XXX(上のXXXと同じ)
 - 自分がどのブランチにいるか
 - ちゃんと最新のmasterをpullしてきたか
 を確認する
+
+# 実際にサービスの画面がどうなってるかの見方
+```
+(hackathonディレクトリで)python main.py
+* Serving Flask app 'app.index' (lazy loading)
+* Environment: production
+ WARNING: This is a development server. Do not use it in a production deployment.
+ Use a production WSGI server instead.
+* Debug mode: off
+* Running on http://localhost:8000/ (Press CTRL+C to quit)
+↑こんな感じのが出てくるはず
+```
+ブラウザで
+http://localhost:8000/ ->index.htmlが表示される
+http://localhost:8000/signup ->signup.htmlが表示される
+http://localhost:8000/signin ->signin.htmlが表示される
+
