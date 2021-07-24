@@ -1,6 +1,15 @@
 body {
-    background-color: #263238;
+    background-color:	#B0E0E6;
   }
-  h1 {
-    color: #FFFFFF;
-  }
+ul li{
+  list-style: none;
+}
+
+input{margin: 10px;
+  width:400px;
+  height: 50px;
+  background-color: rgb(171, 199, 170);
+  border: 3px solid rgb(106, 138, 126);
+  display:block;
+  margin:100px 500px 100px 500px;
+}
