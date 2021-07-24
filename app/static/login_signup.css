@@ -4,12 +4,19 @@ body {
 ul li{
   list-style: none;
 }
-
-input{margin: 10px;
+.name{margin: 10px;
   width:400px;
   height: 50px;
   background-color: rgb(171, 199, 170);
   border: 3px solid rgb(106, 138, 126);
   display:block;
   margin:100px 500px 100px 500px;
+}
+.button{margin: 10px;
+  width:200px;
+  height: 30px;
+  background-color: rgb(48, 94, 47);
+  display:block;
+  margin:100px 600px 100px 600px;
+
 }
