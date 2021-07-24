@@ -23,32 +23,28 @@ def index():
             dic = pickle.load(f)
 
 
+        # ユーザIDをキーとして辞書からユーザ名と努力量を取得
+        user_data = dic[user_id]
+        user_name = user_data[0]
+        effort = user_data[1]
 
-        # ①ユーザIDをキーとして辞書からユーザ名と努力量を取得
-        # dic[ユーザID] = [ユーザ名, 努力量]
-        user_data=dic[user_id]
-        user_name=user_data[0]
-        effort=user_data[1]
+        # 努力量をifで分岐させ、stateを定義
 
-        # ②努力量をifで分岐させ、stateを定義
-        # state = ###
-        # egg, otama_phase1, otama_phase2, otama_phase3, frog
-        
         #卵の時
-        if effort<200:
-          state="egg"
+        if effort < 200:
+          state = "egg"
         #おたまじゃくし：1つ目の段階
-        elif 200<=effort<450:
-          state="otama_phase1"
+        elif 200 <= effort < 450:
+          state = "otama_phase1"
         #おたまじゃくし：２つ目の段階
-        elif 450<=effort<600:
-          state="otama_phase2"
+        elif 450 <= effort < 600:
+          state = "otama_phase2"
         #おたまじゃくし：３つ目の段階
-        elif 600<=effort<750:
-          state="otama_phase3"
+        elif 600 <= effort <750:
+          state = "otama_phase3"
         #蛙
         else:
-          state="frog"
+          state = "frog"
 
 
         return render_template('index.html', name=user_name, state=state, user_id=user_id)
@@ -59,16 +55,46 @@ def index():
         return redirect(url_for("signup"))
 
 
+# 努力量をPOSTした時の処理
+@app.route("/", methods=['post'])
+def effort():
+    # 入力された努力量
+    effort_today = request.form["effort"]
+
+    # ユーザIDをセッションから取得
+    user_id = session["user_id"]
+
+    # ユーザデータの保存するファイルから辞書を取得
+    with open('user_data.pkl', 'rb') as f:
+        dic = pickle.load(f)
+
+    # ユーザIDをキーとして辞書からユーザ名と努力量を取得
+    user_data = dic[user_id]
+    user_name = user_data[0]
+    effort_total = user_data[1]
+
+    state = 'egg'
+
+    # ① 入力された努力量を今までの努力総量に加算し、辞書を更新する。
+    # ② 計算しなおした努力総量を用いて、再度stateを定義する
+
+
+    return render_template('index.html', name=user_name, state=state, user_id=user_id)
+
+
 
 # 新規登録
 @app.route('/signup')
 def signup():
-    return render_template('signup.html')
+    status = request.args.get("status")
+    return render_template('signup.html', status=status)
 
 
 # フォーム記入後
 @app.route("/signup", methods=["post"])
 def signup_post():
+
+    # todo: IDおよび名前が空欄の場合の処理
 
     user_name = request.form["user_name"]
     user_id = request.form["user_id"]
@@ -100,11 +126,14 @@ def signup_post():
 # 既存ユーザログイン
 @app.route('/signin')
 def signin():
-    return render_template('signin.html')
+    status = request.args.get("status")
+    return render_template('signin.html', status=status)
 
 
 @app.route('/signin', methods=["post"])
 def signin_post():
+
+    # todo: IDが空欄の場合の処理
 
     # signin.htmlのフォームから user_id を受け取る
     user_id = request.form["user_id"]

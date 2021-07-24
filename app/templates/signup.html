@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/static/login_signup.css">
   </head>
   <body>
-    
+
     <form method="POST">
     <ul>
     <li>
@@ -20,6 +20,10 @@
     </li>
     </ul>
     </form>
+
+    {% if status == "user_already_exists" %}
+      <p>このIDは既に登録されています。</p>
+    {% endif %}
 
   </body>
 </html>

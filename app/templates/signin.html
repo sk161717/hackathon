@@ -15,7 +15,11 @@
         <input type="submit" class="button" value="Log in">
         </li>
         </ul>
-        </form>
+      </form>
+
+      {% if status == "user_not_found" %}
+        <p>このIDは登録されていません。</p>
+      {% endif %}
 
     </body>
 </html>
