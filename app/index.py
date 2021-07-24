@@ -56,11 +56,10 @@ def index():
 
 
 # 努力量をPOSTした時の処理
-@app.route(“/effort”,methods=[“POST”])
-def effort_post():
-
+@app.route("/", methods=['post'])
+def effort():
     # 入力された努力量
-	effort_today =request.form[“effort”]
+    effort_today = request.form["effort"]
 
     # ユーザIDをセッションから取得
     user_id = session["user_id"]
@@ -73,6 +72,8 @@ def effort_post():
     user_data = dic[user_id]
     user_name = user_data[0]
     effort_total = user_data[1]
+
+    state = 'egg'
 
     # ① 入力された努力量を今までの努力総量に加算し、辞書を更新する。
     # ② 計算しなおした努力総量を用いて、再度stateを定義する
