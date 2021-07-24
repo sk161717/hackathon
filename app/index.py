@@ -24,13 +24,29 @@ def index():
 
         # ①ユーザIDをキーとして辞書からユーザ名と努力量を取得
         # dic[ユーザID] = [ユーザ名, 努力量]
-        # user_name = ###
-        # effort = ###
+        user_data=dic[user_id]
+        user_name=user_data[0]
+        effort=user_data[1]
 
         # ②努力量をifで分岐させ、stateを定義
         # state = ###
         # egg, otama_phase1, otama_phase2, otama_phase3, frog
-
+        
+        #卵の時
+        if effort<200:
+          state="egg"
+        #おたまじゃくし：1つ目の段階
+        elif 200<=effort<450:
+          state="otama_phase1"
+        #おたまじゃくし：２つ目の段階
+        elif 450<=effort<600:
+          state="otama_phase2"
+        #おたまじゃくし：３つ目の段階
+        elif 600<=effort<750:
+          state="otama_phase3"
+        #蛙
+        else:
+          state="frog"
 
 
 
