@@ -6,20 +6,24 @@
     <link rel="stylesheet" href="/static/login_signup.css">
   </head>
   <body>
-    
+
     <form method="POST">
-    <ul>
-    <li>
-    <input type="text" name="user_id" placeholder="ID">
-    </li>
-    <li>
-    <input type="text" name="user_name" placeholder="Name">
-    </li>
-    <li>
-    <input type="submit" value="Sign up">
-    </li>
-    </ul>
+      <ul>
+        <li>
+          <input type="text" name="user_id" placeholder="ID">
+        </li>
+        <li>
+          <input type="text" name="user_name" placeholder="Name">
+        </li>
+        <li>
+          <input type="submit" value="Sign up">
+        </li>
+      </ul>
     </form>
+
+    {% if status == "user_already_exists" %}
+      <p>このIDは既に登録されています。</p>
+    {% endif %}
 
   </body>
 </html>
