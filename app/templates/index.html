@@ -5,11 +5,23 @@
     <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
-    
+    <div class="room title">
+        {{name}}のお部屋
+    </div>
+    <div>
+        <form action="/effort" ,method="POST">
+            <input class="slider" type="range" name="effort" min="0" max="100">
+            <button >このくらい頑張った</button>
+        </form>
+    </div>
     <div class="parent_picture">
         
     </div>
+    <div id="name">{{name}}</div>
+    <div id="state">{{state}}</div>
     <script src="/static/anime-master/lib/anime.min.js"></script>
-    <script src="/static/main.js"></script>
+    
+    <script src="{{url_for('static',filename='main.js')}}"></script>
+
 </body>
 </html>
