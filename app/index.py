@@ -13,7 +13,11 @@ app.register_blueprint(static.app)
 #cookie使ってlogin認証する
 
 @app.route('/')
-def top():
+def toppage():
+    # user_data.pklが存在しない時、空のファイルを作成する
+    if not os.path.isfile('user_data.pkl'):
+        session.pop("user_id", None)
+        save_pickle({}, 'user_data.pkl')
     return render_template('toppage.html')
 
 
@@ -23,10 +27,9 @@ def index():
         # ユーザIDをセッションから取得
         user_id = session["user_id"]
 
+        
         # ユーザデータの保存するファイルから辞書を取得
-        with open('user_data.pkl', 'rb') as f:
-            dic = pickle.load(f)
-
+        dic = load_pickle('user_data.pkl')
 
         # ユーザIDをキーとして辞書からユーザ名と努力量を取得
         user_data = dic[user_id]
@@ -44,7 +47,7 @@ def index():
     else:
         # 仮としてセッション情報がないユーザはsignupにredirect
         # todo: 新規登録とログインが選べるページへの遷移
-        return redirect(url_for("signup"))
+        return redirect(url_for("toppage"))
 
 
 # 努力量をPOSTした時の処理
@@ -57,8 +60,8 @@ def effort():
     user_id = session["user_id"]
 
     # ユーザデータの保存するファイルから辞書を取得
-    with open('user_data.pkl', 'rb') as f:
-        dic = pickle.load(f)
+    dic = load_pickle('user_data.pkl')
+
 
     # ユーザIDをキーとして辞書からユーザ名と努力量を取得
     user_data = dic[user_id]
@@ -115,10 +118,15 @@ def identify(effort,feeling):
 @app.route('/signup')
 def signup():
     status = request.args.get("status")
+
+    # user_data.pklが存在しない時、空のファイルを作成する
+    if not os.path.isfile('user_data.pkl'):
+        save_pickle({}, 'user_data.pkl')
+
     return render_template('signup.html', status=status)
 
 
-# フォーム記入後
+# sign upボタン後の処理
 @app.route("/signup", methods=["post"])
 def signup_post():
 
@@ -128,8 +136,8 @@ def signup_post():
     user_id = request.form["user_id"]
 
     # ユーザデータの保存するファイルから辞書を取得
-    with open('user_data.pkl', 'rb') as f:
-        dic = pickle.load(f)
+    dic = load_pickle('user_data.pkl')
+
 
 
     # IDをキーにユーザ名と努力量をリストとして保存
@@ -137,8 +145,7 @@ def signup_post():
         dic[user_id] = [user_name, 0]
         session["user_id"] = user_id
 
-        with open('user_data.pkl', 'wb') as f:
-            pickle.dump(dic, f)
+        save_pickle(dic, 'user_data.pkl')
 
         return redirect(url_for("index"))
 
@@ -155,9 +162,14 @@ def signup_post():
 @app.route('/signin')
 def signin():
     status = request.args.get("status")
+
+    # user_data.pklが存在しない時、空のファイルを作成する
+    if not os.path.isfile('user_data.pkl'):
+        save_pickle({}, 'user_data.pkl')
+
     return render_template('signin.html', status=status)
 
-
+# sign inボタン後の処理
 @app.route('/signin', methods=["post"])
 def signin_post():
 
@@ -167,8 +179,8 @@ def signin_post():
     user_id = request.form["user_id"]
 
     # ユーザデータを保存するファイルから辞書を取得
-    with open('user_data.pkl', 'rb') as f:
-        dic = pickle.load(f)
+    dic = load_pickle('user_data.pkl')
+
 
     # IDが登録されている場合セッション情報にユーザIDを登録しredirect
     if user_id not in dic:
@@ -179,21 +191,13 @@ def signin_post():
         return redirect(url_for("signin", status="user_not_found"))
 
 
-# ユーザデータのリセット
-@app.route("/reset")
-def reset():
-    dic = {}
-    with open('user_data.pkl', 'wb') as f:
-        pickle.dump(dic, f)
-
-    return render_template("toppage.html")
-
 
 # ログアウト
 @app.route("/logout")
 def logout():
     session.pop("user_id", None)
-    return redirect(url_for("index"))
+    return redirect(url_for("toppage"))
+
 
 #開発用
 @app.route("/debug")
@@ -201,3 +205,12 @@ def debug():
     user_name = 'hogehoge'
     state = "otama_phase2"
     return render_template("index.html",name=user_name, state=state)
+
+
+def save_pickle(dic, path):
+    with open(path, 'wb') as f:
+        pickle.dump(dic, f)
+
+def load_pickle(path):
+    with open(path, 'rb') as f:
+        return pickle.load(f)
