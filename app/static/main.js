@@ -45,6 +45,7 @@ var egg=document.getElementById("egg");
 var fish=document.getElementById("fish");
 var frog=document.getElementById("frog");
 
+//egg
 var eggTimeline=anime.timeline({
     loop,
     direction:'alternate'
@@ -63,6 +64,7 @@ eggTimeline.add({
     easing
 })
 
+//otama
 var fishTimeline=anime.timeline({
     loop,
     direction:'alternate'
@@ -71,7 +73,7 @@ var posX=0;
 var posY=0;
 var velocityX=0;
 var velocityY=0;
-for (let index = 0; index < 1000; index++) {
+for (let index = 0; index < 100; index++) {
     velocityX+=(Math.random()-0.5)*20;
     velocityY+=(Math.random()-0.5)*20;
     if (posX<-400 || 400<posX){
@@ -82,39 +84,35 @@ for (let index = 0; index < 1000; index++) {
     }
     posX+=velocityX;
     posY+=velocityY;
+    
+    duration_=Math.random()*Math.abs(velocityX*velocityY)+500;
+    if (velocityX<0){
+        rotateX_=0;
+    }else{
+        rotateX_=180;
+    }
+
     fishTimeline.add({
         targets:fish,
         translateY:posY,
         translateX:posX,
-        easing
+        easing,
+        duration:duration_,
+        rotateY:rotateX_
     })
 }
-/*
-fishTimeline.add({
-    targets: fish,
-    translateY: 100,
-    translateX: 470,
-    easing
-  }).add({
-    targets: fish,
-    translateY: 0,
-    translateX: 0,
-    easing
-  }).add({
-    targets: fish,
-    translateY: '-80',
-    translateX: 470,
-    easing
-  })
-  */
 
-  var frogTimeline=anime.timeline({
-      loop,
-      direction:'alternate'
-  })
-  frogTimeline.add({
-      targets:frog,
-      translateY:200,
-      easing:'spring',
-      duration:200
-  })
+//frog
+var frogTimeline=anime.timeline({
+    loop,
+    direction:'alternate'
+})
+var pos_f_X=0;
+var pos_f_Y=0;
+
+frogTimeline.add({
+    targets:frog,
+    translateY:200,
+    easing:'spring',
+    duration:200
+})
