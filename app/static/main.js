@@ -10,10 +10,7 @@ function LoadPicture(){
     if (state=="egg" || state=="frog"){
         picture_name=state;
     }else{
-        table={'otama_phase1':'1','otama_phase2':'2','otama_phase3':'3'};
-        let face=['angry','laugh','normal'];
-        let ribbon=['','_ribbon'];
-        picture_name="otama_phase"+table[state]+'_'+face[getRandomInt(3)]+ribbon[getRandomInt(2)];
+        picture_name=state;
     }
 
     img_element.className="image";
