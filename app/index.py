@@ -161,5 +161,5 @@ def logout():
 @app.route("/debug")
 def debug():
     user_name = 'hogehoge'
-    state = 'fish'
+    state = "otama_phase2"
     return render_template("index.html",name=user_name, state=state)
