@@ -67,6 +67,29 @@ var fishTimeline=anime.timeline({
     loop,
     direction:'alternate'
 })
+var posX=0;
+var posY=0;
+var velocityX=0;
+var velocityY=0;
+for (let index = 0; index < 1000; index++) {
+    velocityX+=(Math.random()-0.5)*20;
+    velocityY+=(Math.random()-0.5)*20;
+    if (posX<-400 || 400<posX){
+        velocityX=-velocityX;
+    }
+    if (posY<-300 || 300<posY){
+        velocityY=-velocityY;
+    }
+    posX+=velocityX;
+    posY+=velocityY;
+    fishTimeline.add({
+        targets:fish,
+        translateY:posY,
+        translateX:posX,
+        easing
+    })
+}
+/*
 fishTimeline.add({
     targets: fish,
     translateY: 100,
@@ -83,6 +106,7 @@ fishTimeline.add({
     translateX: 470,
     easing
   })
+  */
 
   var frogTimeline=anime.timeline({
       loop,
