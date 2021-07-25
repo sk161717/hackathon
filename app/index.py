@@ -38,22 +38,9 @@ def index():
 
         # 努力量をifで分岐させ、stateを定義
 
-        #卵の時
-        if effort < 200:
-            state = "egg"
-        #おたまじゃくし：1つ目の段階
-        elif 200 <= effort < 450:
-            state = "otama_phase1"
-        #おたまじゃくし：２つ目の段階
-        elif 450 <= effort < 600:
-            state = "otama_phase2"
-        #おたまじゃくし：３つ目の段階
-        elif 600 <= effort < 750:
-            state = "otama_phase3"
-        #蛙
-        else:
-            state = "frog"
-
+        feeling="_normal"
+        state=identify(effort,feeling)
+        
 
         return render_template('index.html', name=user_name, state=state, user_id=user_id)
 
@@ -80,34 +67,52 @@ def effort():
     user_data = dic[user_id]
     user_name = user_data[0]
 
+    #otama_chanの機嫌を決める
+    if effort_today<20 and not effort_today%3:
+      feeling="_angry"
+    elif effort_today<20 and effort_today%3:
+      feeling="_angry_ribbon"
+    elif 20<=effort_today<60 and not effort_today%3:
+      feeling="_normal"
+    elif 20<=effort_today<60 and  effort_today%3:
+      feeling="_normal_ribbon"
+    elif 60<=effort_today<80:
+      feeling="_laugh"
+    else:
+      feeling="_laugh_ribbon"
+
     # 入力された努力量を今までの努力総量に加算し、辞書を更新する。
     dic[user_id][1] += effort_today
     effort = dic[user_id][1]
+
     # 計算しなおした努力総量を用いて、再度stateを定義する
-
-    #卵の時
-    if effort < 200:
-        state = "egg"
-    #おたまじゃくし：1つ目の段階
-    elif 200 <= effort < 450:
-        state = "otama_phase1"
-    #おたまじゃくし：２つ目の段階
-    elif 450 <= effort < 600:
-        state = "otama_phase2"
-    #おたまじゃくし：３つ目の段階
-    elif 600 <= effort < 750:
-        state = "otama_phase3"
-    #蛙
-    else:
-        state = "frog"
-
+    
+    state=identify(effort,feeling)
+    
     # 新しいdicでuser_data.pklを書き換え
-    save_pickle(dic, 'user_data.pkl')
+    with open('user_data.pkl', 'wb') as f:
+        pickle.dump(dic, f)
 
 
     return render_template('index.html', name=user_name, state=state, user_id=user_id)
 
-
+def identify(effort,feeling):
+    #卵の時 
+    if effort < 200:
+     state = "egg"
+    #おたまじゃくし：1つ目の段階
+    elif 200 <= effort < 450:
+     state = "otama_phase1"+feeling
+    #おたまじゃくし：２つ目の段階
+    elif 450 <= effort < 600:
+     state = "otama_phase2"+feeling
+    #おたまじゃくし：３つ目の段階
+    elif 600 <= effort < 750:
+     state = "otama_phase3"+feeling
+    #蛙
+    else:
+     state = "frog"
+    return state
 
 # 新規登録
 @app.route('/signup')
