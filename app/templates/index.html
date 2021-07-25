@@ -5,13 +5,17 @@
     <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
-    <div class="room title">
-        {{name}}のお部屋
-    </div>
+    <h2><span><i class="fas fa-star"></i></span>{{name}}のお部屋</h2>
     <div>
-        <form method="POST">
-            <input class="slider" type="range" name="effort" min="0" max="100">
-            <button >このくらい頑張った</button>
+        <form method="post">
+            <div class=".flex-container">
+                <input class="slider" type="range" name="effort" min="0" max="100">
+            </div>
+            
+            <div class='btn'>
+                <button >このくらい頑張った!</button>
+            </div>
+            
         </form>
     </div>
     <div class="parent_picture">

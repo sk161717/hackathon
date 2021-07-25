@@ -59,7 +59,7 @@ def index():
 @app.route("/", methods=['post'])
 def effort():
     # 入力された努力量
-    effort_today = request.form["effort"]
+    effort_today = int(request.form["effort"])
 
     # ユーザIDをセッションから取得
     user_id = session["user_id"]
@@ -71,13 +71,26 @@ def effort():
     # ユーザIDをキーとして辞書からユーザ名と努力量を取得
     user_data = dic[user_id]
     user_name = user_data[0]
-    effort_total = user_data[1]
-
-    state = 'egg'
 
     # ① 入力された努力量を今までの努力総量に加算し、辞書を更新する。
+    dic[user_id][1]+=effort_today
+    effort=dic[user_id][1]
     # ② 計算しなおした努力総量を用いて、再度stateを定義する
-
+    #卵の時
+    if effort < 200:
+     state = "egg"
+    #おたまじゃくし：1つ目の段階
+    elif 200 <= effort < 450:
+     state = "otama_phase1"
+    #おたまじゃくし：２つ目の段階
+    elif 450 <= effort < 600:
+     state = "otama_phase2"
+    #おたまじゃくし：３つ目の段階
+    elif 600 <= effort <750:
+     state = "otama_phase3"
+    #蛙
+    else:
+     state = "frog"
 
     return render_template('index.html', name=user_name, state=state, user_id=user_id)
 
@@ -161,5 +174,5 @@ def logout():
 @app.route("/debug")
 def debug():
     user_name = 'hogehoge'
-    state = 'egg'
+    state = "otama_phase2"
     return render_template("index.html",name=user_name, state=state)
