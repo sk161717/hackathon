@@ -8,18 +8,20 @@ input{
     background-color: rgb(48, 94, 47);
     float: right;
     margin: 10px;
-    width: 50px;
-    height: 10px;
+    height: 40px;
+    width: 100px;
 }
 h1{
+    margin-top: 100px;
     font-size: 80px;
     font-family:"Yu Gothic", "游ゴシック", "Yu Gothic", "游ゴシック体";
     color: rgb(106, 138, 126);
+    text-align:center
 }
 
 img{
     width: 200px;
     height: 300px;
     float: left;
-    margin:20px;
+    margin: 70px;
 }
