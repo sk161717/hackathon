@@ -13,6 +13,11 @@ app.register_blueprint(static.app)
 #cookie使ってlogin認証する
 
 @app.route('/')
+def top():
+    return render_template('toppage.html')
+
+
+@app.route('/index')
 def index():
     if "user_id" in session:
         # ユーザIDをセッションから取得
@@ -32,19 +37,19 @@ def index():
 
         #卵の時
         if effort < 200:
-          state = "egg"
+            state = "egg"
         #おたまじゃくし：1つ目の段階
         elif 200 <= effort < 450:
-          state = "otama_phase1"
+            state = "otama_phase1"
         #おたまじゃくし：２つ目の段階
         elif 450 <= effort < 600:
-          state = "otama_phase2"
+            state = "otama_phase2"
         #おたまじゃくし：３つ目の段階
-        elif 600 <= effort <750:
-          state = "otama_phase3"
+        elif 600 <= effort < 750:
+            state = "otama_phase3"
         #蛙
         else:
-          state = "frog"
+            state = "frog"
 
 
         return render_template('index.html', name=user_name, state=state, user_id=user_id)
@@ -56,7 +61,7 @@ def index():
 
 
 # 努力量をPOSTした時の処理
-@app.route("/", methods=['post'])
+@app.route("/index", methods=['post'])
 def effort():
     # 入力された努力量
     effort_today = int(request.form["effort"])
@@ -72,25 +77,31 @@ def effort():
     user_data = dic[user_id]
     user_name = user_data[0]
 
-    # ① 入力された努力量を今までの努力総量に加算し、辞書を更新する。
-    dic[user_id][1]+=effort_today
-    effort=dic[user_id][1]
-    # ② 計算しなおした努力総量を用いて、再度stateを定義する
+    # 入力された努力量を今までの努力総量に加算し、辞書を更新する。
+    dic[user_id][1] += effort_today
+    effort = dic[user_id][1]
+    # 計算しなおした努力総量を用いて、再度stateを定義する
+
     #卵の時
     if effort < 200:
-     state = "egg"
+        state = "egg"
     #おたまじゃくし：1つ目の段階
     elif 200 <= effort < 450:
-     state = "otama_phase1"
+        state = "otama_phase1"
     #おたまじゃくし：２つ目の段階
     elif 450 <= effort < 600:
-     state = "otama_phase2"
+        state = "otama_phase2"
     #おたまじゃくし：３つ目の段階
-    elif 600 <= effort <750:
-     state = "otama_phase3"
+    elif 600 <= effort < 750:
+        state = "otama_phase3"
     #蛙
     else:
-     state = "frog"
+        state = "frog"
+
+    # 新しいdicでuser_data.pklを書き換え
+    with open('user_data.pkl', 'wb') as f:
+        pickle.dump(dic, f)
+
 
     return render_template('index.html', name=user_name, state=state, user_id=user_id)
 
@@ -162,6 +173,16 @@ def signin_post():
     # IDが未登録の場合
     else:
         return redirect(url_for("signin", status="user_not_found"))
+
+
+# ユーザデータのリセット
+@app.route("/reset")
+def reset():
+    dic = {}
+    with open('user_data.pkl', 'wb') as f:
+        pickle.dump(dic, f)
+
+    return render_template("toppage.html")
 
 
 # ログアウト
