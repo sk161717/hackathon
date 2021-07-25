@@ -88,6 +88,7 @@ def effort():
     # 計算しなおした努力総量を用いて、再度stateを定義する
     
     state=identify(effort,feeling)
+    print(state)
     
     # 新しいdicでuser_data.pklを書き換え
     with open('user_data.pkl', 'wb') as f:
