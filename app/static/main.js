@@ -73,6 +73,7 @@ var posX=0;
 var posY=0;
 var velocityX=0;
 var velocityY=0;
+var rotate_=0;
 for (let index = 0; index < 100; index++) {
     velocityX+=(Math.random()-0.5)*20;
     velocityY+=(Math.random()-0.5)*20;
@@ -91,14 +92,27 @@ for (let index = 0; index < 100; index++) {
     }else{
         rotateX_=180;
     }
-
+    
+    if(Math.random()<0.2){
+        rotate_+=360*(getRandomInt(3)-1)
+    }
     fishTimeline.add({
         targets:fish,
-        translateY:posY,
-        translateX:posX,
+        translateY:{
+            value:posY,
+            duration:duration_
+        },
+        translateX:{
+            value:posX,
+            duration:duration_
+        },
         easing,
         duration:duration_,
-        rotateY:rotateX_
+        rotateY:rotateX_,
+        rotate:{
+            value:rotate_,
+            duration:duration_,
+        }
     })
 }
 
@@ -110,9 +124,36 @@ var frogTimeline=anime.timeline({
 var pos_f_X=0;
 var pos_f_Y=0;
 
-frogTimeline.add({
-    targets:frog,
-    translateY:200,
-    easing:'spring',
-    duration:200
-})
+for (let index = 0; index < 100; index++) {
+    if (Math.random()<0.3){
+        frogTimeline.add({
+            targets:frog,
+            translateY:{
+                value:(pos_f_Y-200),
+                duration:600
+            },
+            easing:'spring'
+        }).add({
+            targets:frog,
+            translateY:{
+                value:pos_f_Y,
+                duration:600
+            },
+            easing:'spring',
+            duration:100
+        })
+    }else{
+        pos_f_X+=(Math.random()-0.5)*100;
+        pos_f_Y+=(Math.random()-0.5)*100;
+        frogTimeline.add({
+            targets:frog,
+            translateY:pos_f_Y,
+            translateX:pos_f_X,
+            easing,
+            duration:200
+        })
+    }
+    
+    
+}
+
