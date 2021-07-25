@@ -27,7 +27,7 @@ def index():
         # ユーザIDをセッションから取得
         user_id = session["user_id"]
 
-        
+
         # ユーザデータの保存するファイルから辞書を取得
         dic = load_pickle('user_data.pkl')
 
@@ -183,7 +183,7 @@ def signin_post():
 
 
     # IDが登録されている場合セッション情報にユーザIDを登録しredirect
-    if user_id not in dic:
+    if user_id in dic:
         session["user_id"] = user_id
         return redirect(url_for("index"))
     # IDが未登録の場合
@@ -205,6 +205,13 @@ def debug():
     user_name = 'hogehoge'
     state = "otama_phase2"
     return render_template("index.html",name=user_name, state=state)
+
+
+@app.route("/dic")
+def verify_dic():
+    dic = load_pickle('user_data.pkl')
+    print(dic)
+    return redirect(url_for("toppage"))
 
 
 def save_pickle(dic, path):
